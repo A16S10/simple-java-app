@@ -37,6 +37,11 @@
       args:
         chdir: /home/arshad/simple-java-app
 
+
+
+
+
+
     - name: Check if there are any changes to commit
       command: git diff --cached --exit-code
       args:
@@ -44,6 +49,10 @@
       register: git_diff
       failed_when: false      
 
+    - name: Debug git diff output
+      debug:
+        msg: "{{ git_diff }}"
+   
     - name: Commit changes if there are any
       command: git commit -m "adding jar file to repo"
       args:
