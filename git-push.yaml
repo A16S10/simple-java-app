@@ -42,7 +42,7 @@
       args:
         chdir: /home/arshad/simple-java-app
       register: git_diff
-      ignore_errors: true      
+      failed_when: false      
 
     - name: Commit changes if there are any
       command: git commit -m "adding jar file to repo"
