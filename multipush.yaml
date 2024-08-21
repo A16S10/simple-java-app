@@ -1,0 +1,56 @@
+---
+- name: Push file to GitHub repository
+  hosts: localhost
+  become: yes
+  become_user: arshad  
+  tasks:
+  
+    - name: Set remote URL to use SSH
+      command: git remote set-url origin git@github.com:A16S10/simple-java-app.git
+      args:
+        chdir: /home/arshad/simple-java-app
+        
+        
+    - name: Copy file to the repository
+      copy:
+        src: /home/arshad/simple-java-app/target/simple-java-app-1.0-SNAPSHOT.jar
+        dest: /home/arshad/simple-java-app
+        owner: arshad
+        group: arshad
+        mode: '0744'  
+
+    - name: Initialize Git repository if not already initialized
+      command: git init
+      args:
+        chdir: /home/arshad/simple-java-app
+
+
+
+    - name: Stage all changes
+      command: git add /home/arshad/simple-java-app/simple-java-app-1.0-SNAPSHOT.jar
+      args:
+        chdir: /home/arshad/simple-java-app
+
+
+   
+    - name: Commit changes if there are any
+      command: git commit -m "adding jar file to repo"
+      args:
+        chdir: /home/arshad/simple-java-app
+
+
+    - name: Push changes to GitHub if commit was successful
+      command: git push -u origin main
+      args:
+        chdir: /home/arshad/simple-java-app
+        
+        
+    - name: Upload file to S3
+      aws_s3:
+        bucket: jarfile-push
+        object: simple-java-app-1.0-SNAPSHOT.jar
+        src: /home/arshad/simple-java-app/target/simple-java-app-1.0-SNAPSHOT.jar
+        mode: put
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+

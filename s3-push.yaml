@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - name: Upload file to S3
+      aws_s3:
+        bucket: jarfile-push
+        object: simple-java-app-1.0-SNAPSHOT.jar
+        src: /home/arshad/simple-java-app/target/simple-java-app-1.0-SNAPSHOT.jar
+        mode: put
+        aws_access_key: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
