@@ -4,6 +4,13 @@
   become: yes
   become_user: arshad  
   tasks:
+  
+    - name: Set remote URL to use SSH
+      command: git remote set-url origin git@github.com:A16S10/simple-java-app.git
+      args:
+        chdir: /home/arshad/simple-java-app
+        
+        
     - name: Copy file to the repository
       copy:
         src: /home/arshad/simple-java-app/target/simple-java-app-1.0-SNAPSHOT.jar
@@ -16,52 +23,23 @@
       command: git init
       args:
         chdir: /home/arshad/simple-java-app
-      register: git_init_result
-      
 
-    - name: Check if remote origin exists
-      command: git remote get-url origin
-      args:
-        chdir: /home/arshad/simple-java-app
-      register: remote_check
-      
 
-    - name: Add remote repository if not exists
-      command: git remote add origin https://github.com/A16S10/java_app.git
-      args:
-        chdir: /home/arshad/simple-java-app
-      when: remote_check.rc != 0  # Only add if it doesn't exist
 
     - name: Stage all changes
-      command: git add -A
+      command: git add /home/arshad/simple-java-app/simple-java-app-1.0-SNAPSHOT.jar
       args:
         chdir: /home/arshad/simple-java-app
 
 
-
-
-
-
-    - name: Check if there are any changes to commit
-      command: git diff --cached --exit-code
-      args:
-        chdir: /home/arshad/simple-java-app
-      register: git_diff
-      failed_when: false      
-
-    - name: Debug git diff output
-      debug:
-        msg: "{{ git_diff }}"
    
     - name: Commit changes if there are any
       command: git commit -m "adding jar file to repo"
       args:
         chdir: /home/arshad/simple-java-app
-      when: git_diff.rc != 0
+
 
     - name: Push changes to GitHub if commit was successful
       command: git push -u origin main
       args:
         chdir: /home/arshad/simple-java-app
-      when: git_diff.rc != 0
-
