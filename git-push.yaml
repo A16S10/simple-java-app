@@ -27,7 +27,7 @@
       
 
     - name: Add remote repository if not exists
-      command: git remote add origin https://github.com/A16S10/simple-java-app.git
+      command: git remote add origin https://github.com/A16S10/java_app.git
       args:
         chdir: /home/arshad/simple-java-app
       when: remote_check.rc != 0  # Only add if it doesn't exist
@@ -60,7 +60,7 @@
       when: git_diff.rc != 0
 
     - name: Push changes to GitHub if commit was successful
-      command: git push -u origin master
+      command: git push -u origin main
       args:
         chdir: /home/arshad/simple-java-app
       when: git_diff.rc != 0
