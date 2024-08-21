@@ -17,14 +17,14 @@
       args:
         chdir: /home/arshad/simple-java-app
       register: git_init_result
-      ignore_errors: yes
+      
 
     - name: Check if remote origin exists
       command: git remote get-url origin
       args:
         chdir: /home/arshad/simple-java-app
       register: remote_check
-      ignore_errors: true
+      
 
     - name: Add remote repository if not exists
       command: git remote add origin https://github.com/A16S10/simple-java-app.git
@@ -42,7 +42,7 @@
       args:
         chdir: /home/arshad/simple-java-app
       register: git_diff
-      ignore_errors: true
+      ignore_errors: true      
 
     - name: Commit changes if there are any
       command: git commit -m "adding jar file to repo"
