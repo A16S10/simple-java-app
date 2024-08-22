@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    
+    environment {
+        DOCKER_IMAGE = 'maven:3.8.6-openjdk-11' // Maven Docker image with OpenJDK
+    }
+    
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Pull Docker image and run Maven build
+                    docker.image(DOCKER_IMAGE).inside {
+                        // Checkout code
+                        checkout scm
+                        
+                        // Run Maven command to build JAR
+                        sh 'mvn clean package'
+                    }
+                }
+            }
+        }
+        
+        stage('Archive JAR') {
+            steps {
+                // Archive the JAR file as an artifact
+                archiveArtifacts artifacts: '**/target/*.jar', allowEmptyArchive: true
+            }
+        }
+    }
+    
+    post {
+        always {
+            // Clean up Docker containers if needed
+            cleanWs()
+        }
+    }
+}
