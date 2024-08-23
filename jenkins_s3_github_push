@@ -1,0 +1,30 @@
+pipeline {
+    agent any
+    
+    environment {
+        GIT_CREDENTIALS_ID = 'githubtoken_docker'
+        AWS_CREDENTIALS_ID = 'AWS_cred'
+    }
+    
+    stages {
+
+        
+        stage('Deploy Files') {
+            steps {
+                ansiblePlaybook(
+                    playbook: "/var/lib/jenkins/workspace/assignment_job_c/simple-java-app/multipush.yaml",
+                    credentialsId: "${AWS_CREDENTIALS_ID}"
+                )
+            }
+        }
+    }
+    
+    post {
+        success {
+            echo 'Playbook executed successfully!'
+        }
+        failure {
+            echo 'Playbook execution failed.'
+        }
+    }
+}
