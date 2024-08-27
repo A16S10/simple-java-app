@@ -17,6 +17,8 @@ The project should be structured as follows:
 
 - **Dockerfile**: This file will utilize OpenJDK as the base image. The application will be set up in the working directory, and the `pom.xml` and source files will be copied into this directory. The Dockerfile will also contain instructions to run the Java application when the container starts.
 
+  ![Alt text](images/src.png)
+
 ---
 
 ## (B) Creating the Docker Container
@@ -24,6 +26,8 @@ The project should be structured as follows:
 ### Docker Host and Docker Daemon
 
 Docker facilitates the separation of applications from infrastructure, providing a platform to run containers efficiently. The relationship between the Docker host and the Docker daemon is akin to a client-server model; these components can reside on the same machine or be installed on different machines. The processes of creating Docker images and running containers are managed by the Docker daemon.
+
+ ![Alt text](images/daemon.png)
 
 ### Steps to Create a Docker Image
 
@@ -90,6 +94,8 @@ Jenkins is an open-source tool designed to facilitate the creation of Continuous
    - **Script Path**: Enter `Jenkinsfile` (the name must match exactly as it appears in your GitHub repository).
 
 6. **Save and Run Job**: Save the configuration and execute the job.
+
+ ![Alt text](images/pipeline.png)
 
 7. **Expected Outcome**: The end result should reflect a successful pipeline execution. If you encounter any issues, please review the instructions carefully and ensure that you are following the repository guidelines.
 
